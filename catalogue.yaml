@@ -1,0 +1,82 @@
+- name: catalogue compoent configuration
+  hosts: catalogue
+  tasks:
+  - name: default nodejs disable
+    ansible. builtin.command: dnf module disable nodejs -y
+
+  - name: nodejs20  enable
+    ansible. builtin.command: dnf module enable nodejs:20 -y
+  
+  - name: nodejs instalaltion
+    ansible.builtin.dnf:
+       name: nodejs
+       state: present
+  
+  - name: system user id creation
+    ansible.builtin.user:
+      name: roboshop
+      shell: /sbin/nlogin
+      home: /app
+
+  - name: directory creation
+    ansible.builtin.file:
+      path: /app
+      state: directory
+  
+  - name: downloading the code
+    ansible.builtin.get_url:
+       url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+       dest: /tmp/catalogue.zip
+
+  - name: Unarchive a file that is already on the remote machine
+    ansible.builtin.unarchive:
+       src: /tmp/catalogue.zip
+       dest: /app
+       remote_src: yes
+    
+  - name: Install the dependencies
+    community.general.npm:
+        path: /app
+
+  - name: copy the catalogue service to systemd
+    ansible:builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+  
+  - name: daemon-reload service
+    ansible.builtin.systemd_service:
+       daemon-reload: true
+  
+  - name: start and enable the catalogue service
+    ansible.builtin.service:
+       name: catalogue
+       state: started
+       enabled: yes
+
+  - name: copying mongo.repo
+    ansible:builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+  
+  - name: installation of mongodb client
+    ansible.builtin.dnf:
+       name: mongodb-mongosh
+       state: present
+  
+  - name: check the data
+    ansible.builtin.command: mongosh --host mongodb.bheemadevops.fun --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    register: catalogue_output
+
+  - name: print the command catalogue_output
+    ansible.builtin.debug:
+       msg: "{{ catalogue_output }}"
+  
+  - name: upload the product data
+    ansible.builtin.shell: mongosh --host mongodb.bheemadevops.fun < /app/db/master-data.js
+    when: catalogue_output.stdout | int < 0  # stdout showing -1, we added here condition as lessthan 0
+  
+  
+    
+
+
+   
