@@ -1,5 +1,5 @@
 - name: mongodb Server instalaltion
-  hosts: mongodb
+  hosts: Mongodb
   tasks:
   - name: copying mongorepo file
     ansible.builtin.copy:
