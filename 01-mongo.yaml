@@ -1,5 +1,5 @@
 - name: mongodb Server instalaltion
-  hosts: Mongodb
+  hosts: mongodb
   become: yes
   tasks:
   - name: copying mongorepo file
