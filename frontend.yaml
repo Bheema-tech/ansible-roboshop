@@ -21,7 +21,7 @@
   
   - name: downlod the code
     ansible.builtin.get_url:
-       src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+       url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
        dest: /tmp/frontend.zip
 
   - name: delete the html directory
