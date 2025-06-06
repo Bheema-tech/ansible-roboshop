@@ -9,6 +9,14 @@
     loop:
     - maven
     - mysql
+
+  - name: install PyMySQL and cryptography # these modules requried in Ansible due to ansible developed on python
+    ansible.builtin.pip:
+      name: "{{ item }}"
+      executable: pip3.9
+    loop:
+    - cryptography
+    - PyMySQL
   
   - name: system user id creation
     ansible.builtin.user:
