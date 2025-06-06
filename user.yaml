@@ -1,5 +1,6 @@
 - name: user compoent configuration
   hosts: user
+  become: yes
   tasks:
   - name: default nodejs disable
     ansible.builtin.command: dnf module disable nodejs -y

@@ -1,11 +1,12 @@
 - name: cart compoent configuration
   hosts: cart
+  become: yes
   tasks:
   - name: default nodejs disable
-    ansible. builtin.command: dnf module disable nodejs -y
+    ansible.builtin.command: dnf module disable nodejs -y
 
   - name: nodejs20  enable
-    ansible. builtin.command: dnf module enable nodejs:20 -y
+    ansible.builtin.command: dnf module enable nodejs:20 -y
   
   - name: nodejs instalaltion
     ansible.builtin.dnf:
@@ -39,7 +40,7 @@
         path: /app
 
   - name: copy the cart service to systemd
-    ansible:builtin.copy:
+    ansible.builtin.copy:
       src: cart.service
       dest: /etc/systemd/system/cart.service
   
