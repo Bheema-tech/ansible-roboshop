@@ -1,10 +1,11 @@
 - name: frontend component configuration
   hosts: frontend
+  become: yes
   tasks: 
   - name: disabling default nginx module
     ansible.builtin.command: dnf module disable nginx -yes
   
-  - name: enabling nginx- 1.24  module
+  - name: enabling nginx 1.24  module
     ansible.builtin.command: dnf module enable nginx:1.24 -yes
 
   - name: nginx installation
@@ -34,7 +35,7 @@
        state: directory
   
   - name: unzipping the code to html direcoty at remote Server
-    ansible.builtin. unarchive:
+    ansible.builtin.unarchive:
        src: /tmp/frontend.zip
        dest: /usr/share/nginx/html
        remote_src: yes
