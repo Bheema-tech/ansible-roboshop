@@ -1,5 +1,5 @@
 - name: configuring Shipping component
-  hosts: Shipping
+  hosts: shipping
   become: yes
   tasks:
   - name: installaing maven and mysql client
