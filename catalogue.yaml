@@ -53,7 +53,7 @@
        state: started
        enabled: yes
 
-  - name: copying mongo.repo
+  - name: copying mongo repo
     ansible.builtin.copy:
       src: mongo.repo
       dest: /etc/yum.repos.d/mongo.repo
