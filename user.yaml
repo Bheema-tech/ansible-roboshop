@@ -4,7 +4,7 @@
   - name: default nodejs disable
     ansible.builtin.command: dnf module disable nodejs -y
 
-  - name: nodejs20  enable
+  - name: nodejs20 enable
     ansible.builtin.command: dnf module enable nodejs:20 -y
   
   - name: nodejs instalaltion
@@ -39,7 +39,7 @@
         path: /app
 
   - name: copy the user service to systemd
-    ansible:builtin.copy:
+    ansible.builtin.copy:
       src: user.service
       dest: /etc/systemd/system/user.service
   
