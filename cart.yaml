@@ -13,16 +13,17 @@
        name: nodejs
        state: present
   
-  - name: system user id creation
-    ansible.builtin.user:
-      name: roboshop
-      shell: /sbin/nlogin
-      home: /app
-
   - name: directory creation
     ansible.builtin.file:
       path: /app
       state: directory
+  
+  - name: system user id creation
+    ansible.builtin.user:
+      name: roboshop
+      shell: /sbin/nlogin
+      system: true
+      home: /app
   
   - name: downloading the code
     ansible.builtin.get_url:
