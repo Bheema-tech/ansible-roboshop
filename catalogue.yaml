@@ -22,7 +22,7 @@
     ansible.builtin.user:
       name: roboshop
       shell: /sbin/nlogin
-      system:true
+      system: true
       home: /app
   
   - name: downloading the code
